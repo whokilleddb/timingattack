@@ -63,7 +63,7 @@ while tolerence > 1 or tolerence < 0 :
     tolerence=float(input("[+] Enter Tolerence Value : "))
 
 print(f"[+] Tolerence Set To : {tolerence}")
-
+tolerence=1-tolerence
 for user,time in intervals.items():
     if time >= largest*tolerence:
         print(f"[+] {user} : {time}")
